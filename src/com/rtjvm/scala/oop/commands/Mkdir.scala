@@ -1,6 +1,6 @@
 package com.rtjvm.scala.oop.commands
 
-import com.rtjvm.scala.oop.files.Directory
+import com.rtjvm.scala.oop.files.{DirEntry, Directory}
 import com.rtjvm.scala.oop.filesystem.State
 
 class Mkdir(name: String) extends Command {
@@ -9,7 +9,14 @@ class Mkdir(name: String) extends Command {
     name.contains(".")
   }
 
-  def updateStructure(currentDirectory: Directory, path: List[String], newEntry: Directory): Directory = ???
+  def updateStructure(currentDirectory: Directory, path: List[String], newEntry: DirEntry): Directory = {
+    if (path.isEmpty) currentDirectory.addEntry(newEntry)
+    else {
+      val oldEntry = currentDirectory.findEntry(path.head)
+      currentDirectory.replaceEntry(oldEntry.name, updateStructure(oldEntry.asDirectory, path.tail, newEntry))
+    }
+
+  }
 
   def doMkdir(state: State, name: String): State = {
     val wd = state.wd
@@ -24,8 +31,6 @@ class Mkdir(name: String) extends Command {
 
     State(newRoot, newWd)
   }
-
-  new
 
   override def apply(state: State): State = {
     val wd = state.wd
