@@ -39,7 +39,7 @@ abstract class CreateEntry(name: String) extends Command {
 
     val allDirsInPath = wd.getAllFoldersInPath
 
-    val newEntry: DirEntry = createSpecificEntry(state, name)
+    val newEntry: DirEntry = createSpecificEntry(state)
 
 
     val newRoot = updateStructure(state.root, allDirsInPath, newEntry)
