@@ -9,8 +9,20 @@ class Mkdir(name: String) extends Command {
     name.contains(".")
   }
 
-  def doMkdir(state: State, name: String): State ={
-    new State()
+  def updateStructure(currentDirectory: Directory, path: List[String], newEntry: Directory): Directory = ???
+
+  def doMkdir(state: State, name: String): State = {
+    val wd = state.wd
+
+    val allDirsInPath = wd.getAllFoldersInPath
+
+    val newDir = Directory.empty(wd.path, name)
+
+    val newRoot = updateStructure(state.root, allDirsInPath, newDir)
+
+    val newWd = newRoot.findDescendant(allDirsInPath)
+
+    State(newRoot, newWd)
   }
 
   new
