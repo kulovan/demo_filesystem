@@ -3,6 +3,7 @@ package com.rtjvm.scala.oop.files
 import scala.annotation.tailrec
 
 class Directory(override val parentPath: String, override val name: String, val contents: List[DirEntry]) extends DirEntry(parentPath, name) {
+
   def replaceEntry(entryName: String, newEntry: DirEntry): Directory =
     new Directory(parentPath, name, contents.filter(e => !e.name.equals(entryName)) :+ newEntry)
 
@@ -14,7 +15,7 @@ class Directory(override val parentPath: String, override val name: String, val 
     else findEntry(path.head).asDirectory.findDescendant(path.tail)
 
   def getAllFoldersInPath: List[String] =
-    path.substring(1).split(Directory.separator).toList
+    path.substring(1).split(Directory.separator).toList.filter(e => !e.isEmpty)
 
   def hasEntry(name: String): Boolean = findEntry(name) != null
 
@@ -27,6 +28,8 @@ class Directory(override val parentPath: String, override val name: String, val 
 
     findEntryHelper(entryName, contents)
   }
+
+  override def getType: String = "Directory"
 
   override def asDirectory: Directory = this
 
