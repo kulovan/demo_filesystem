@@ -12,6 +12,7 @@ object Command {
 
   val MKDIR = "mkdir"
   val LS = "ls"
+  val PWD = "pwd"
 
   def from(input: String): Command = {
     val tokens: Array[String] = input.split(" ")
@@ -22,6 +23,9 @@ object Command {
     }
     else if (LS.equals(tokens(0))) {
       new Ls
+    }
+    else if (PWD.equals(tokens(0))) {
+      new Pwd
     }
     else new UnknownCommand
   }
