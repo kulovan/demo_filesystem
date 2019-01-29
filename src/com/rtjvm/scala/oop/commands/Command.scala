@@ -13,6 +13,7 @@ object Command {
   val MKDIR = "mkdir"
   val LS = "ls"
   val PWD = "pwd"
+  val TOUCH = "touch"
 
   def from(input: String): Command = {
     val tokens: Array[String] = input.split(" ")
@@ -26,6 +27,9 @@ object Command {
     }
     else if (PWD.equals(tokens(0))) {
       new Pwd
+    }
+    else if (TOUCH.equals(tokens(0))) {
+      new Touch(tokens(1))
     }
     else new UnknownCommand
   }
